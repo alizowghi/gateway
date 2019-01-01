@@ -85,10 +85,7 @@ class Sadad extends PortAbstract implements PortInterface
 	protected function encrypt_pkcs7($str, $key)
 	{
 		$key = base64_decode($key);
-		$block = @mcrypt_get_block_size("tripledes", "ecb");
-		$pad = $block - (strlen($str) % $block);
-		$str .= str_repeat(chr($pad), $pad);
-		$ciphertext = @mcrypt_encrypt("tripledes", $key, $str,"ecb");
+		$ciphertext = OpenSSL_encrypt($str,"DES-EDE3", $key, OPENSSL_RAW_DATA);
 		return base64_encode($ciphertext);
 	}
 
